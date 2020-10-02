@@ -3,7 +3,10 @@ applications:
   - path: ./target/demo-ibm-cloud-0.0.1-SNAPSHOT.jar
     memory: 900M
     instances: 1
-    buildpack: java_buildpack
+    buildpacks:
+      - java_buildpack_cached
+    env:
+      JBP_CONFIG_OPEN_JDK_JRE: '{ "jre": { version: 11.+ } }'
     name: demo-ibm-cloud
     disk_quota: 900M
     random-route: false
