@@ -129,7 +129,7 @@
     <!--
         Configuration of Setting.xml file
     -->
-    <repositories>
+    <!--<repositories>
         <repository>
             <snapshots>
                 <enabled>false</enabled>
@@ -162,9 +162,9 @@
         </pluginRepository>
     </pluginRepositories>
 
-    <!--
+    &lt;!&ndash;
       Configuration of deploy into artifactory file
-  -->
+  &ndash;&gt;
 
     <distributionManagement>
         <repository>
@@ -178,5 +178,5 @@
             <url>http://localhost:8081/artifactory/libs-snapshot</url>
         </snapshotRepository>
 
-    </distributionManagement>
+    </distributionManagement>-->
 </project>
