@@ -1,8 +1,9 @@
 ---
 applications:
-  - path: .
+  - path: ./target/demo-ibm-cloud-0.0.1-SNAPSHOT.jar
     memory: 64M
     instances: 1
-    name: my-quiz-app
+    buildpack: java_buildpack
+    name: demo-ibm-cloud
     disk_quota: 256M
     random-route: false
