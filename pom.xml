@@ -15,7 +15,7 @@
     <description>ibm cloud foundry project for Spring Boot</description>
 
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>11</java.version>
     </properties>
 
     <dependencies>
@@ -107,25 +107,27 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>2.5.1</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.apache.maven.shared</groupId>
-                        <artifactId>maven-invoker</artifactId>
-                        <version>2.2</version>
-                    </dependency>
-                </dependencies>
-   <!--             <configuration>
-                    <stagingRepository>
-                        localforme::default::file://C:/Users/Michael/.m2/repository
-                    </stagingRepository>
-                </configuration>
--->            </plugin>
         </plugins>
     </build>
+    <!--<plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.5.1</version>
+        <dependencies>
+            <dependency>
+                <groupId>org.apache.maven.shared</groupId>
+                <artifactId>maven-invoker</artifactId>
+                <version>2.2</version>
+            </dependency>
+        </dependencies>
+&lt;!&ndash;             <configuration>
+            <stagingRepository>
+                localforme::default::file://C:/Users/Michael/.m2/repository
+            </stagingRepository>
+        </configuration>
+&ndash;&gt;            </plugin>
+</plugins>
+</build>-->
     <!--
         Configuration of Setting.xml file
     -->
