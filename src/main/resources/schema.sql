@@ -1,0 +1,1 @@
+create table customer (customer_id UUID not null, address varchar(255), name varchar(255), email_id varchar(255), mobile_number varchar(255), social_id varchar(255), primary key (customer_id));
