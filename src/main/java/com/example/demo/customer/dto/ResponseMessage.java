@@ -1,4 +1,4 @@
-package com.example.demo.customer.entity;
+package com.example.demo.customer.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

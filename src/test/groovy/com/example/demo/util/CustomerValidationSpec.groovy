@@ -3,8 +3,8 @@ package com.example.demo.util
 import com.example.demo.customer.dto.CustomerDTO
 import com.example.demo.customer.entity.Customer
 import com.example.demo.customer.repository.CustomerRepository
-import com.example.demo.customer.service.BasicCustomerServiceGenGen
-import com.example.demo.customer.validation.CustomerValidator
+import com.example.demo.customer.service.BasicCustomerCommandService
+
 import spock.lang.Specification
 
 class CustomerValidationSpec extends Specification {
@@ -13,10 +13,10 @@ class CustomerValidationSpec extends Specification {
         def customerValidator = Mock(CustomerValidator)
         def customerRepository = Mock(CustomerRepository)
 
-        def basicCustomerService = new BasicCustomerServiceGenGen(customerValidator, customerRepository);
+        def basicCustomerService = new BasicCustomerCommandService(customerValidator, customerRepository);
         given: "test"
         when: "when"
-        Customer customer = basicCustomerService.getCustomer(null);
+        Customer customer = basicCustomerService.mapToCustomer(null);
         then:
         def exception = thrown(NullPointerException)
         exception.message == 'customerId is marked non-null but is null'
@@ -26,10 +26,10 @@ class CustomerValidationSpec extends Specification {
         def customerValidator = Mock(CustomerValidator)
         def customerRepository = Mock(CustomerRepository)
 
-        def basicCustomerService = new BasicCustomerServiceGenGen(customerValidator, customerRepository)
+        def basicCustomerService = new BasicCustomerCommandService(customerValidator, customerRepository)
         given: "test"
         when: "when"
-        CustomerDTO customerDTO = basicCustomerService.getCustomer("null");
+        CustomerDTO customerDTO = basicCustomerService.mapToCustomer("null");
         then:
         customerDTO != null;
     }

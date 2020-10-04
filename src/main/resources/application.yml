@@ -1,18 +1,28 @@
 spring:
   datasoruce:
-    url: jdbc:h2:mem:testdb
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=PostgreSQL
     driverClassName: org.h2.Driver
     username: sa
     password:
+    hikari:
+      auto-commit: true
+      minimum-idle: 3
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     show-sql: true
     hibernate:
       ddl-auto: none
+      default_schema: customer
+      jdbc.lob.non_contextual_creation: true
+      dialect: org.hibernate.dialect.H2Dialect
     # Enabling H2 Console
     # Custom H2 Console URL
   h2:
     console.enabled: true
     console.path: /h2
-#    restart:
+
+  main:
+    banner-mode: off
+
+    #    restart:
 #      enabled: true

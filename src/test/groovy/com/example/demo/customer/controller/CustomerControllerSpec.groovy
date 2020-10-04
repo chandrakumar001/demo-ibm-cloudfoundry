@@ -1,7 +1,7 @@
 package com.example.demo.customer.controller
 
 import com.example.demo.customer.dto.CustomerDTO
-import com.example.demo.customer.service.CustomerServiceGen
+import com.example.demo.customer.service.CustomerCommandService
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.http.HttpStatus
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
@@ -11,9 +11,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 class CustomerControllerSpec extends Specification {
     // Don't want to call real service, so use mock
-    def customerService = Mock(CustomerServiceGen);
+    def customerService = Mock(CustomerCommandService);
     // Init controller with mock:
-    def api = new CustomerController(customerService)
+    def api = new CustomerCommandController(customerService)
     // Let Spring MVC Test process the controller:
     def mvc = MockMvcBuilders.standaloneSetup(api).build()
     ObjectMapper objectMapper=new ObjectMapper();

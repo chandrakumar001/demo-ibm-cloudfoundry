@@ -1,6 +1,6 @@
 package com.example.demo.customer.entity;
 
-import lombok.AllArgsConstructor;
+import com.example.demo.jpa.auditentity.Auditable;
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -9,14 +9,17 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.UUID;
 
-@Table
+@Table(name = "customer", schema = "customer")
 @Entity
 @Data
-public class Customer {
+//@EntityListeners(AuditingEntityListener.class)
+public class Customer extends Auditable<String> {
+
     @Id
     @GeneratedValue
     private UUID customerId;
-    private UniqueIdentity uniqueId;
+    private CustomerUniqueIdentity uniqueId;
     private String name;
     private String address;
+    private boolean isDeleted = true;
 }

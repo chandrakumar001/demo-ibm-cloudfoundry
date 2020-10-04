@@ -1,6 +1,6 @@
 package com.example.demo.customer
 
-import com.example.demo.customer.entity.ResponseMessage
+import com.example.demo.customer.dto.ResponseMessage
 import groovyx.net.http.RESTClient
 import spock.lang.Specification
 import spock.lang.Unroll
