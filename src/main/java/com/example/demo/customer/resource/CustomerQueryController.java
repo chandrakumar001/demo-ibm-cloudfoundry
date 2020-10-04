@@ -1,4 +1,4 @@
-package com.example.demo.customer.controller;
+package com.example.demo.customer.resource;
 
 import com.example.demo.customer.dto.CustomerDTO;
 import com.example.demo.customer.service.CustomerQueryService;
@@ -19,13 +19,15 @@ public class CustomerQueryController {
     @NonNull
     CustomerQueryService customerService;
 
-    @GetMapping("v1/customers/{cid}")
-    public ResponseEntity<CustomerDTO> getCustomerById(@PathVariable("cid") final String customerId) {
+    @GetMapping(CustomerConstant.V1_CUSTOMERS_CID_PATH)
+    public ResponseEntity<CustomerDTO> getCustomerById(
+            @PathVariable(CustomerConstant.CUSTOMER_ID) final String customerId) {
 
         final CustomerDTO customerDTO = customerService.getCustomer(customerId);
         return ResponseEntity.ok(customerDTO);
     }
-    @GetMapping("v1/customers")
+
+    @GetMapping(CustomerConstant.V1_CUSTOMERS)
     public ResponseEntity<List<CustomerDTO>> getAllCustomer() {
 
         final List<CustomerDTO> customerDTO = customerService.getAllCustomer();

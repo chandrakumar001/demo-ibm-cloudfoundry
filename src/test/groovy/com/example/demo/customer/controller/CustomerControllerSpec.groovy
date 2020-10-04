@@ -1,4 +1,4 @@
-package com.example.demo.customer.controller
+package com.example.demo.customer.resource
 
 import com.example.demo.customer.dto.CustomerDTO
 import com.example.demo.customer.service.CustomerCommandService
