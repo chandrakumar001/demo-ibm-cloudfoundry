@@ -2,6 +2,7 @@ package com.example.demo.customer.resource;
 
 import com.example.demo.customer.dto.CustomerDTO;
 import com.example.demo.customer.service.CustomerQueryService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@Tag(name = "customer")
 @RestController
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class CustomerQueryController {
 
     @NonNull

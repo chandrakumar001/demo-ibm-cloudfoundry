@@ -4,6 +4,7 @@ import com.example.demo.customer.dto.CustomerDTO;
 import com.example.demo.customer.dto.ResponseMessage;
 import com.example.demo.customer.service.CustomerCommandService;
 import com.example.demo.customer.validation.CustomerDTOValidator;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +12,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+
+@Tag(name = "customer")
 @RestController
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class CustomerCommandController {
 
 

@@ -24,5 +24,10 @@ spring:
   main:
     banner-mode: off
 
+application-description: project.description
+application-version: project.version
     #    restart:
 #      enabled: true
+springdoc:
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
