@@ -1,0 +1,6 @@
+customer:
+  attribute:
+    customerBareDTO:
+      uniqueId: customerBareDTO.empty.uniqueId
+      name: customerBareDTO.empty.name
+      address: customerBareDTO.empty.address

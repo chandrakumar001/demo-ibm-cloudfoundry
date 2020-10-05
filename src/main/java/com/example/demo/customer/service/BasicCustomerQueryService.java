@@ -27,19 +27,19 @@ public class BasicCustomerQueryService implements CustomerQueryService {
     public CustomerDTO getCustomer(@NonNull final String customerId) {
         //validation
         final UUID id = UUID.fromString(customerId);
-        final Customer customer = getCustomerByIdThrowError(
+        final Customer customer = resourceNotFoundException(
                 id
         );
         return CustomerMapper.mapToCustomerDTO(customer);
     }
 
 
-    private Customer getCustomerByIdThrowError(final UUID id) {
+    private Customer resourceNotFoundException(final UUID id) {
         return getCustomerById(id)
-                .orElseThrow(this::getCustomerByIdThrowError);
+                .orElseThrow(this::resourceNotFoundException);
     }
 
-    private RuntimeException getCustomerByIdThrowError() {
+    private RuntimeException resourceNotFoundException() {
         return new ResourceNotFoundException("Not found");
     }
 

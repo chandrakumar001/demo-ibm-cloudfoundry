@@ -23,6 +23,45 @@ public class GenaralException {
     @Autowired
     MessageSource messageSource;
 
+    @ExceptionHandler(ResourceConflictException.class)
+    public ResponseEntity<ExceptionDetails> handleResourceConflictException(
+            final ResourceConflictException resourceConflictException) {
+
+        final String datetimeStamp = LocalDateTime.now().toString();
+        final String code = HttpStatus.CONFLICT.toString();
+        final ExceptionDetails exceptionDetails = getExceptionDetails(
+                resourceConflictException.getMessage(),
+                datetimeStamp,
+                code
+        );
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ExceptionDetails> handleResourceNotFoundException(
+            final ResourceNotFoundException resourceNotFoundException) {
+
+        final String datetimeStamp = LocalDateTime.now().toString();
+        final String code = HttpStatus.NOT_FOUND.toString();
+        final ExceptionDetails exceptionDetails = getExceptionDetails(
+                resourceNotFoundException.getMessage(),
+                datetimeStamp,
+                code
+        );
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.NOT_FOUND);
+    }
+
+    public ExceptionDetails getExceptionDetails(
+            String message,
+            String datetimeStamp,
+            String code) {
+        return ExceptionDetails.of(
+                datetimeStamp,
+                code,
+                message
+        );
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Object> handleMethodArgumentNotValidException(
             final MethodArgumentNotValidException methodArgumentNotValidException) {

@@ -5,6 +5,7 @@ import com.example.demo.customer.dto.ResponseMessage;
 import com.example.demo.customer.entity.Customer;
 import com.example.demo.customer.mapper.CustomerMapper;
 import com.example.demo.customer.repository.CustomerRepository;
+import com.example.demo.exception.ResourceConflictException;
 import com.example.demo.exception.ResourceNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -25,13 +26,23 @@ public class BasicCustomerCommandService implements CustomerCommandService {
     @NonNull
     private final CustomerRepository customerRepository;
 
+    private static void resourceConflictException(final Customer customer) {
+        throw new ResourceConflictException("Already exists id");
+    }
+
     @Override
     public CustomerDTO createCustomer(CustomerDTO customerDTO) {
+
         //validation
+        customerRepository.findByUniqueIdUniqueId(customerDTO.getUniqueId())
+                .ifPresent(BasicCustomerCommandService::resourceConflictException);
+
         // mapping
         final Customer customer = CustomerMapper.mapToCustomer(
                 customerDTO
         );
+
+
         //saving customerRepository
         final Customer customerDB = customerRepository.save(
                 customer
@@ -44,7 +55,7 @@ public class BasicCustomerCommandService implements CustomerCommandService {
                                       final String customerId) {
 
         final UUID id = UUID.fromString(customerId);
-        final Customer customer = getCustomerByIdThrowError(
+        final Customer customer = resourceNotFoundException(
                 id
         );
         customer(customerDTO, customer);
@@ -63,12 +74,12 @@ public class BasicCustomerCommandService implements CustomerCommandService {
     }
 
 
-    private Customer getCustomerByIdThrowError(final UUID id) {
+    private Customer resourceNotFoundException(final UUID id) {
         return getCustomerById(id)
-                .orElseThrow(this::getCustomerByIdThrowError);
+                .orElseThrow(this::resourceNotFoundException);
     }
 
-    private RuntimeException getCustomerByIdThrowError() {
+    private RuntimeException resourceNotFoundException() {
         return new ResourceNotFoundException("Not found");
     }
 
