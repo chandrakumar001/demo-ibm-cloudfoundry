@@ -26,23 +26,16 @@ public class BasicCustomerCommandService implements CustomerCommandService {
     @NonNull
     private final CustomerRepository customerRepository;
 
-    private static void resourceConflictException(final Customer customer) {
-        throw new ResourceConflictException("Already exists id");
-    }
-
     @Override
-    public CustomerDTO createCustomer(CustomerDTO customerDTO) {
+    public CustomerDTO createCustomer(final CustomerDTO customerDTO) {
 
         //validation
         customerRepository.findByUniqueIdUniqueId(customerDTO.getUniqueId())
-                .ifPresent(BasicCustomerCommandService::resourceConflictException);
-
+                .ifPresent(this::resourceConflictException);
         // mapping
         final Customer customer = CustomerMapper.mapToCustomer(
                 customerDTO
         );
-
-
         //saving customerRepository
         final Customer customerDB = customerRepository.save(
                 customer
@@ -54,9 +47,12 @@ public class BasicCustomerCommandService implements CustomerCommandService {
     public CustomerDTO updateCustomer(final CustomerDTO customerDTO,
                                       final String customerId) {
 
-        final UUID id = UUID.fromString(customerId);
-        final Customer customer = resourceNotFoundException(
-                id
+        Validate.vaidateAndGetErrorMessage(customerId)
+                .ifPresent(this::resourceNotFoundException);
+
+        final UUID customerIdUUID = UUID.fromString(customerId);
+        final Customer customer = getCustomerByIdIfThrowException(
+                customerIdUUID
         );
         customer(customerDTO, customer);
 
@@ -74,13 +70,21 @@ public class BasicCustomerCommandService implements CustomerCommandService {
     }
 
 
-    private Customer resourceNotFoundException(final UUID id) {
-        return getCustomerById(id)
+    private Customer getCustomerByIdIfThrowException(final UUID customerIdUUID) {
+        return getCustomerById(customerIdUUID)
                 .orElseThrow(this::resourceNotFoundException);
     }
 
     private RuntimeException resourceNotFoundException() {
         return new ResourceNotFoundException("Not found");
+    }
+
+    private void resourceNotFoundException(final String customer) {
+        throw new ResourceConflictException("Not found");
+    }
+
+    private void resourceConflictException(final Customer customer) {
+        throw new ResourceConflictException("Already exists id");
     }
 
     private Optional<Customer> getCustomerById(final UUID id) {
@@ -90,7 +94,13 @@ public class BasicCustomerCommandService implements CustomerCommandService {
     @Override
     public ResponseMessage deleteCustomer(final String customerId) {
 
-        customerRepository.softDelete(UUID.fromString(customerId));
+        Validate.vaidateAndGetErrorMessage(customerId)
+                .ifPresent(this::resourceNotFoundException);
+
+        final UUID customerIdUUID = UUID.fromString(customerId);
+        getCustomerByIdIfThrowException(customerIdUUID);
+
+        customerRepository.softDelete(customerIdUUID);
         return ResponseMessage.of(THE_CUSTOMER_ID_HAS_BEEN_DELETED + customerId);
     }
 }

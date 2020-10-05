@@ -4,6 +4,7 @@ import com.example.demo.customer.dto.CustomerDTO;
 import com.example.demo.customer.entity.Customer;
 import com.example.demo.customer.mapper.CustomerMapper;
 import com.example.demo.customer.repository.CustomerRepository;
+import com.example.demo.exception.ResourceConflictException;
 import com.example.demo.exception.ResourceNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -25,22 +26,30 @@ public class BasicCustomerQueryService implements CustomerQueryService {
 
     @Override
     public CustomerDTO getCustomer(@NonNull final String customerId) {
+
         //validation
+        Validate.vaidateAndGetErrorMessage(customerId)
+                .ifPresent(this::resourceNotFoundException);
+
         final UUID id = UUID.fromString(customerId);
-        final Customer customer = resourceNotFoundException(
+        final Customer customer = getCustomerByIdIfThrowException(
                 id
         );
         return CustomerMapper.mapToCustomerDTO(customer);
     }
 
 
-    private Customer resourceNotFoundException(final UUID id) {
+    private Customer getCustomerByIdIfThrowException(final UUID id) {
         return getCustomerById(id)
                 .orElseThrow(this::resourceNotFoundException);
     }
 
     private RuntimeException resourceNotFoundException() {
         return new ResourceNotFoundException("Not found");
+    }
+
+    private void resourceNotFoundException(final String customer) {
+        throw new ResourceConflictException("Not found");
     }
 
     private Optional<Customer> getCustomerById(final UUID id) {

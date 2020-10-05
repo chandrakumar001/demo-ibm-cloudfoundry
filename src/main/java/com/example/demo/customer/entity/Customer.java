@@ -12,7 +12,6 @@ import java.util.UUID;
 @Table(name = "customer", schema = "customer")
 @Entity
 @Data
-//@EntityListeners(AuditingEntityListener.class)
 public class Customer extends Auditable<String> {
 
     @Id
