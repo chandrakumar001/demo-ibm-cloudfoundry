@@ -1,6 +1,7 @@
 package com.example.demo.customer.validation;
 
 import com.example.demo.customer.dto.CustomerDTO;
+import com.example.demo.uitl.validateUtil;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;

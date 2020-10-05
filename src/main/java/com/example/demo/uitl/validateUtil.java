@@ -1,4 +1,4 @@
-package com.example.demo.customer.validation;
+package com.example.demo.uitl;
 
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.Errors;
