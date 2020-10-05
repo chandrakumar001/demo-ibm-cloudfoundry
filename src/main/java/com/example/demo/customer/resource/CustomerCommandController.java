@@ -10,7 +10,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.DataBinder;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 
 @Tag(name = "customer")
@@ -38,7 +41,7 @@ public class CustomerCommandController {
 
     @PostMapping(CustomerConstant.V1_CUSTOMERS)
     public ResponseEntity<CustomerDTO> createCustomer(
-            @RequestBody final CustomerDTO customerDTO) {
+            @RequestBody @Valid final CustomerDTO customerDTO) {
 
         final CustomerDTO customer = customerCommandService.createCustomer(
                 customerDTO
@@ -48,7 +51,7 @@ public class CustomerCommandController {
 
     @PutMapping(CustomerConstant.V1_CUSTOMERS_CID_PATH)
     public ResponseEntity<CustomerDTO> updateCustomer(
-            @RequestBody final CustomerDTO customerDTO,
+            @RequestBody @Valid final CustomerDTO customerDTO,
             @PathVariable(CustomerConstant.CUSTOMER_ID) final String customerId) {
 
         final CustomerDTO customer = customerCommandService.updateCustomer(
@@ -56,6 +59,16 @@ public class CustomerCommandController {
                 customerId
         );
         return new ResponseEntity<>(customer, HttpStatus.ACCEPTED);
+    }
+
+    /**
+     * Validate the request body object(customerDTO)
+     *
+     * @param dataBinder as DataBinder
+     */
+    @InitBinder
+    protected void setupBinder(final DataBinder dataBinder) {
+        dataBinder.addValidators(customerDTOValidator);
     }
 
 }

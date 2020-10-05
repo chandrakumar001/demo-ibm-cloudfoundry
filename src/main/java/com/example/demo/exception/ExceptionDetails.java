@@ -4,6 +4,8 @@ import lombok.Value;
 
 @Value(staticConstructor = "of")
 public class ExceptionDetails {
-    private String localTime;
-    private String message;
+
+    String localTime;
+    String code;
+    String message;
 }

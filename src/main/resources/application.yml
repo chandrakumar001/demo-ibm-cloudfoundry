@@ -23,6 +23,8 @@ spring:
 
   main:
     banner-mode: off
+  messages:
+    basename: i18n/messages
 
 application-description: project.description
 application-version: project.version
