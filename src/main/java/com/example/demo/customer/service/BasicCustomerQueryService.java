@@ -4,6 +4,7 @@ import com.example.demo.customer.dto.CustomerDTO;
 import com.example.demo.customer.entity.Customer;
 import com.example.demo.customer.mapper.CustomerMapper;
 import com.example.demo.customer.repository.CustomerRepository;
+import com.example.demo.customer.validation.CustomerValidate;
 import com.example.demo.exception.ResourceConflictException;
 import com.example.demo.exception.ResourceNotFoundException;
 import lombok.AllArgsConstructor;
@@ -28,7 +29,7 @@ public class BasicCustomerQueryService implements CustomerQueryService {
     public CustomerDTO getCustomer(@NonNull final String customerId) {
 
         //validation
-        Validate.vaidateAndGetErrorMessage(customerId)
+        CustomerValidate.vaidateAndGetErrorMessage(customerId)
                 .ifPresent(this::resourceNotFoundException);
 
         final UUID id = UUID.fromString(customerId);

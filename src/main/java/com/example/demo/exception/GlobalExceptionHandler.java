@@ -12,22 +12,35 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
-public class GenaralException {
+public class GlobalExceptionHandler {
 
     @Autowired
     MessageSource messageSource;
+
+    @ExceptionHandler(ParameterException.class)
+    public ResponseEntity<ExceptionDetails> handleParameterException(
+            final ParameterException parameterException) {
+
+        final String datetimeStamp = DateHelper.getDatetimeStamp();
+        final String code = HttpStatus.BAD_REQUEST.toString();
+        final ExceptionDetails exceptionDetails = getExceptionDetails(
+                parameterException.getMessage(),
+                datetimeStamp,
+                code
+        );
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.BAD_REQUEST);
+    }
 
     @ExceptionHandler(ResourceConflictException.class)
     public ResponseEntity<ExceptionDetails> handleResourceConflictException(
             final ResourceConflictException resourceConflictException) {
 
-        final String datetimeStamp = LocalDateTime.now().toString();
+        final String datetimeStamp = DateHelper.getDatetimeStamp();
         final String code = HttpStatus.CONFLICT.toString();
         final ExceptionDetails exceptionDetails = getExceptionDetails(
                 resourceConflictException.getMessage(),
@@ -41,7 +54,7 @@ public class GenaralException {
     public ResponseEntity<ExceptionDetails> handleResourceNotFoundException(
             final ResourceNotFoundException resourceNotFoundException) {
 
-        final String datetimeStamp = LocalDateTime.now().toString();
+        final String datetimeStamp = DateHelper.getDatetimeStamp();
         final String code = HttpStatus.NOT_FOUND.toString();
         final ExceptionDetails exceptionDetails = getExceptionDetails(
                 resourceNotFoundException.getMessage(),
@@ -85,7 +98,7 @@ public class GenaralException {
     private ExceptionDetails getErrorResponse(final ObjectError objectError) {
 
         final String message = getMessage(objectError.getCode());
-        final String datetimeStamp = LocalDateTime.now().toString();
+        final String datetimeStamp = DateHelper.getDatetimeStamp();
         final String code = HttpStatus.BAD_REQUEST.toString();
         return ExceptionDetails.of(datetimeStamp, code, message);
     }

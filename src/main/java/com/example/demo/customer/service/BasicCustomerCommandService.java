@@ -5,6 +5,7 @@ import com.example.demo.customer.dto.ResponseMessage;
 import com.example.demo.customer.entity.Customer;
 import com.example.demo.customer.mapper.CustomerMapper;
 import com.example.demo.customer.repository.CustomerRepository;
+import com.example.demo.customer.validation.CustomerValidate;
 import com.example.demo.exception.ResourceConflictException;
 import com.example.demo.exception.ResourceNotFoundException;
 import lombok.AllArgsConstructor;
@@ -47,7 +48,7 @@ public class BasicCustomerCommandService implements CustomerCommandService {
     public CustomerDTO updateCustomer(final CustomerDTO customerDTO,
                                       final String customerId) {
 
-        Validate.vaidateAndGetErrorMessage(customerId)
+        CustomerValidate.vaidateAndGetErrorMessage(customerId)
                 .ifPresent(this::resourceNotFoundException);
 
         final UUID customerIdUUID = UUID.fromString(customerId);
@@ -94,7 +95,7 @@ public class BasicCustomerCommandService implements CustomerCommandService {
     @Override
     public ResponseMessage deleteCustomer(final String customerId) {
 
-        Validate.vaidateAndGetErrorMessage(customerId)
+        CustomerValidate.vaidateAndGetErrorMessage(customerId)
                 .ifPresent(this::resourceNotFoundException);
 
         final UUID customerIdUUID = UUID.fromString(customerId);

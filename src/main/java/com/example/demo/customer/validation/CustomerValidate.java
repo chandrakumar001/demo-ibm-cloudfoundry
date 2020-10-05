@@ -1,13 +1,13 @@
-package com.example.demo.customer.service;
+package com.example.demo.customer.validation;
 
 import java.util.Optional;
 import java.util.UUID;
 
-public class Validate {
+public class CustomerValidate {
 
     public static final String CUSTOMER_INVALID_ID = "customer.invalid.id";
 
-    
+
     public static Optional<String> vaidateAndGetErrorMessage(final String customerId) {
 
         try {
