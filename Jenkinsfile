@@ -60,7 +60,7 @@ pipeline {
         // Deploy
         stage('Deploy') {
             steps {
-                bat 'kubectl set image -n dev deployment/ms-person docker.io/ms-project/demo-ibm-cloud:0.0.1'
+                bat 'kubectl set image -n dev deployment/demo-ibm-cloud docker.io/ms-project/demo-ibm-cloud:0.0.1'
             }
         }
         //end

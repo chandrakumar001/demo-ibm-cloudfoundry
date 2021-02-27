@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-ibm-cloud
+  labels:
+    purpose: demo-ibm-cloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demo-ibm-cloud
+  template:
+    metadata:
+      name: demo-ibm-cloud
+      labels:
+        app: demo-ibm-cloud
+    spec:
+      containers:
+      - name: demo-ibm-cloud
+        image: docker.io/ms-project/demo-ibm-cloud:0.0.1
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 80
