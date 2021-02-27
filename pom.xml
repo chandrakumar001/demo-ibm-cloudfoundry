@@ -11,7 +11,7 @@
 
     <groupId>com.example</groupId>
     <artifactId>demo-ibm-cloud</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>ibm cloud foundry</name>
     <description>ibm cloud foundry project for Spring Boot</description>
 
