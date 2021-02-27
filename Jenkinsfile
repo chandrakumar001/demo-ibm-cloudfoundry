@@ -54,7 +54,7 @@ pipeline {
         }
         stage('Build Docker Image') {
             steps {
-                bat 'docker build . -t ms-project/demo-ibm-cloud:${newVersion}'
+                bat 'docker build . -t ms-project/demo-ibm-cloud:0.0.1'
             }
         }
         // Deploy
