@@ -14,9 +14,9 @@ pipeline {
         stage('Info') {
           steps {
           // read info from pom (see: http://maven.apache.org/components/ref/3.3.9/maven-model/apidocs/org/apache/maven/model/Model.html)
-          pom = readMavenPom file: 'pom.xml'
+          def pom = readMavenPom file: 'pom.xml'
           printf("Version: %s", pom.version)
-          version = getVersion(pom)
+          def version = getVersion(pom)
           // either release, develop or feature(default)
           printf("Version set to: %s", version)
           }
