@@ -6,8 +6,7 @@ pipeline {
 
         // read info from pom (see: http://maven.apache.org/components/ref/3.3.9/maven-model/apidocs/org/apache/maven/model/Model.html)
         def  pom = readMavenPom file: 'pom.xml'
-        def  verson=pom.version
-        bat "Version: %verson%"
+        bat "echo Version: %pom.version%"
     }
     // auto triggers
     triggers {
