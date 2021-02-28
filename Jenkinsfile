@@ -67,11 +67,13 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script{
-                    println "Image build job skipped ${newVersion}"
+                    println "Image build job skipped ${newVersion} begin"
+                    'docker build . -t localhost:50000/ms-project/demo-ibm-cloud:${newVersion}'
+                    println "Image build job skipped ${newVersion} end"
                 }
                 //${newVersion}
                // %newVersion%
-                    bat 'docker build . -t localhost:50000/ms-project/demo-ibm-cloud:${newVersion}'
+                bat 'docker build . -t localhost:50000/ms-project/demo-ibm-cloud:${newVersion}'
                 bat 'echo the image to docker'
                 bat 'docker push localhost:50000/ms-project/demo-ibm-cloud:${newVersion}'
 
