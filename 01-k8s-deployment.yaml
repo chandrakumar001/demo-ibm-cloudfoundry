@@ -16,8 +16,18 @@ spec:
         app: demo-ibm-cloud
     spec:
       containers:
-      - name: demo-ibm-cloud
-        image: docker.io/ms-project/demo-ibm-cloud:0.0.1
-        imagePullPolicy: Never
-        ports:
-        - containerPort: 80
+        - name: demo-ibm-cloud
+          image: docker.io/ms-project/demo-ibm-cloud:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 80
+          readinessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 20

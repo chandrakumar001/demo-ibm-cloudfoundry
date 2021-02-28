@@ -54,13 +54,22 @@ pipeline {
         }
         stage('Build Docker Image') {
             steps {
-                bat 'docker build . -t ms-project/demo-ibm-cloud:0.0.1'
+                bat 'docker build . -t ms-project/demo-ibm-cloud:0.0.2'
+                bat 'Push the image to docker'
+                bat 'docker push docker.io/ms-project/demo-ibm-cloud:0.0.2'
+
+                bat 'Push the latest image to docker'
+                bat 'docker tag docker.io/ms-project/demo-ibm-cloud:0.0.2 docker.io/ms-project/demo-ibm-cloud:latest'
+                bat 'docker push docker.io/ms-project/demo-ibm-cloud:latest'
+
+                bat 'Delete the image from jenkins'
+                bat 'docker rmi -f ms-project/demo-ibm-cloud:0.0.2 ms-project/demo-ibm-cloud:latest'
             }
         }
         // Deploy
         stage('Deploy') {
             steps {
-                bat 'kubectl set image -n dev deployment/demo-ibm-cloud demo-ibm-cloud=docker.io/ms-project/demo-ibm-cloud:0.0.1'
+                bat 'kubectl set image -n dev deployment/demo-ibm-cloud demo-ibm-cloud=docker.io/ms-project/demo-ibm-cloud:0.0.2'
             }
         }
         //end
