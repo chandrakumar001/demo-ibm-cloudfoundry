@@ -71,6 +71,7 @@ pipeline {
                     'docker build . -t localhost:50000/ms-project/demo-ibm-cloud:${newVersion}'
                     println "Image build job skipped ${newVersion} end"
                 }
+                bat 'docker build . -t localhost:50000/ms-project/demo-ibm-cloud:%newVersion%'
                 //${newVersion}
                // %newVersion%
                 bat 'docker build . -t localhost:50000/ms-project/demo-ibm-cloud:${newVersion}'
