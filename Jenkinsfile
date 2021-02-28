@@ -68,7 +68,8 @@ pipeline {
             steps {
                 script{
                     println "Image build job skipped ${newVersion} begin"
-                    'docker build . -t localhost:50000/ms-project/demo-ibm-cloud:${newVersion}'
+                    def pom = readMavenPom file: 'pom.xml'
+                    newVersion=pom.version
                     println "Image build job skipped ${newVersion} end"
                 }
                 bat 'docker build . -t localhost:50000/ms-project/demo-ibm-cloud:%newVersion%'
