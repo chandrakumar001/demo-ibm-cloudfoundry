@@ -4,13 +4,31 @@ pipeline {
         //def newVersion= "0.0.3";
         def newVersion= "0.0.3";
         // read info from pom (see: http://maven.apache.org/components/ref/3.3.9/maven-model/apidocs/org/apache/maven/model/Model.html)
-        def  pom = readMavenPom file: 'pom.xml'
-       // def version = getVersion(pom)
     // auto triggers
     triggers {
         pollSCM('H/5 * * * *')
     }
+
     stages {
+            stage('Info') {
+                // read info from pom (see: http://maven.apache.org/components/ref/3.3.9/maven-model/apidocs/org/apache/maven/model/Model.html)
+                pom = readMavenPom file: 'pom.xml'
+                printf("Version: %s", pom.version)
+
+                // list modules
+                printf ("Modules: %s", pom.getModules().join(","))
+
+                // set version explicit in maven pom, always add build number
+                // format of version should be: <name>-x.y.x-<branch?>-<build>
+                version = getVersion(pom)
+
+                withMaven(jdk: 'jdk1.8.0_72', maven: 'apache-maven-3.3.9') {
+                    sh "mvn versions:set -DnewVersion=${version}"
+                }
+
+                // either release, develop or feature(default)
+                printf("Version set to: %s", version)
+            }
         // Build
         stage('Build') {
             steps {
