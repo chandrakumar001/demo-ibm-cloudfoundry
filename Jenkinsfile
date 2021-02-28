@@ -1,10 +1,10 @@
 def newVersion
 pipeline {
   agent any
-    environment {
+   // environment {
         //def newVersion= "0.0.3";
         //def newVersion=null;
-    }
+   // }
     // auto triggers
     triggers {
         pollSCM('H/5 * * * *')
