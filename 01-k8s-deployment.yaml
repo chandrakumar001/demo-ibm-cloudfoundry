@@ -17,8 +17,8 @@ spec:
     spec:
       containers:
         - name: demo-ibm-cloud
-          image: docker.io/ms-project/demo-ibm-cloud:latest
-          imagePullPolicy: Never
+          image: localhost:50000/ms-project/demo-ibm-cloud:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
           readinessProbe:

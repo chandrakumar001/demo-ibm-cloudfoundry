@@ -54,16 +54,16 @@ pipeline {
         }
         stage('Build Docker Image') {
             steps {
-                bat 'docker build . -t ms-project/demo-ibm-cloud:0.0.2'
+                bat 'docker build . -t localhost:50000/ms-project/demo-ibm-cloud:0.0.2'
                 bat 'echo the image to docker'
-                bat 'docker push docker.io/ms-project/demo-ibm-cloud:0.0.2'
+                bat 'docker push localhost:50000/ms-project/demo-ibm-cloud:0.0.2'
 
                 bat 'echo the latest image to docker'
-                bat 'docker tag docker.io/ms-project/demo-ibm-cloud:0.0.2 docker.io/ms-project/demo-ibm-cloud:latest'
-                bat 'docker push docker.io/ms-project/demo-ibm-cloud:latest'
+                bat 'docker tag localhost:50000/ms-project/demo-ibm-cloud:0.0.2 localhost:50000/ms-project/demo-ibm-cloud:latest'
+                bat 'docker push localhost:50000/ms-project/demo-ibm-cloud:latest'
 
                 bat 'Delete the image from jenkins'
-                bat 'docker rmi -f ms-project/demo-ibm-cloud:0.0.2 ms-project/demo-ibm-cloud:latest'
+                bat 'docker rmi -f localhost:50000/ms-project/demo-ibm-cloud:0.0.2 localhost:50000/ms-project/demo-ibm-cloud:latest'
             }
         }
         // Deploy
