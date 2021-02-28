@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-load-test-calls
+  labels:
+    app: nginx-load-test-calls
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-load-test-calls
+  template:
+    metadata:
+      name: nginx-load-test-calls
+      labels:
+        app: nginx-load-test-calls
+    spec:
+      containers:
+        - name: nginx-load-test-calls
+          image: busybox
+          command:
+            - /bin/sh
+            - -c
+            - "while true; do wget -q -O- http://deployment-example; done"
