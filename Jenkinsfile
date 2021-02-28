@@ -5,7 +5,7 @@ pipeline {
         def newVersion= "0.0.3";
         // read info from pom (see: http://maven.apache.org/components/ref/3.3.9/maven-model/apidocs/org/apache/maven/model/Model.html)
         def  pom = readMavenPom file: 'pom.xml'
-        def version = getVersion(pom)
+       // def version = getVersion(pom)
     // auto triggers
     triggers {
         pollSCM('H/5 * * * *')
@@ -14,7 +14,7 @@ pipeline {
         // Build
         stage('Build') {
             steps {
-                bat "echo Version: %version%"
+              //  bat "echo Version: %version%"
                 bat "echo Version: %pom.version%"
                 // Clean before build
                 cleanWs()
