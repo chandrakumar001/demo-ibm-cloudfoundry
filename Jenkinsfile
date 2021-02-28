@@ -1,9 +1,9 @@
+def newVersion
 pipeline {
   agent any
     environment {
         //def newVersion= "0.0.3";
-        //def newVersion= "0.0.3";
-        def newVersion=null;
+        //def newVersion=null;
     }
     // auto triggers
     triggers {
