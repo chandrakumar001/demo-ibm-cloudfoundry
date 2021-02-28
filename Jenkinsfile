@@ -2,7 +2,8 @@ pipeline {
   agent any
     environment {
         //def newVersion= "0.0.3";
-        def newVersion= "0.0.3";
+        //def newVersion= "0.0.3";
+        def newVersion=null;
     }
     // auto triggers
     triggers {
@@ -35,12 +36,9 @@ pipeline {
         stage('Info') {
           steps {
             script{
-                  // read info from pom (see: http://maven.apache.org/components/ref/3.3.9/maven-model/apidocs/org/apache/maven/model/Model.html)
                   def pom = readMavenPom file: 'pom.xml'
-                  printf("Version: %s", pom.version)
-                  def version = getVersion(pom)
-                  // either release, develop or feature(default)
-                  printf("Version set to: %s", version)
+                  newVersion=pom.version
+                  printf("Test Version: %s", pom.version)
             }
           }
         }
