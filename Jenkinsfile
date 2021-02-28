@@ -1,6 +1,7 @@
 pipeline {
   agent any
     environment {
+        //def newVersion= "0.0.3";
         def newVersion= "0.0.3";
     }
     // auto triggers
@@ -54,23 +55,25 @@ pipeline {
         }
         stage('Build Docker Image') {
             steps {
-                bat 'docker build . -t localhost:50000/ms-project/demo-ibm-cloud:${newVersion}'
+                //${newVersion}
+               // %newVersion%
+                bat 'docker build . -t localhost:50000/ms-project/demo-ibm-cloud:%newVersion%'
                 bat 'echo the image to docker'
-                bat 'docker push localhost:50000/ms-project/demo-ibm-cloud:${newVersion}'
+                bat 'docker push localhost:50000/ms-project/demo-ibm-cloud:%newVersion%'
 
                 bat 'echo the latest image to docker'
-                bat 'docker tag localhost:50000/ms-project/demo-ibm-cloud:${newVersion} localhost:50000/ms-project/demo-ibm-cloud:latest'
+                bat 'docker tag localhost:50000/ms-project/demo-ibm-cloud:%newVersion% localhost:50000/ms-project/demo-ibm-cloud:latest'
                 bat 'docker push localhost:50000/ms-project/demo-ibm-cloud:latest'
 
                 bat 'echo Delete the image from jenkins'
-                bat 'docker rmi -f localhost:50000/ms-project/demo-ibm-cloud:${newVersion} localhost:50000/ms-project/demo-ibm-cloud:latest'
+                bat 'docker rmi -f localhost:50000/ms-project/demo-ibm-cloud:%newVersion% localhost:50000/ms-project/demo-ibm-cloud:latest'
             }
         }
         // Deploy
         stage('Deploy') {
             steps {
                 bat 'echo Deploy'
-                bat 'kubectl set image deployment/demo-ibm-cloud demo-ibm-cloud=localhost:50000/ms-project/demo-ibm-cloud:${newVersion}'
+                bat 'kubectl set image deployment/demo-ibm-cloud demo-ibm-cloud=localhost:50000/ms-project/demo-ibm-cloud:%newVersion%'
             }
         }
         //end
