@@ -62,14 +62,15 @@ pipeline {
                 bat 'docker tag localhost:50000/ms-project/demo-ibm-cloud:0.0.2 localhost:50000/ms-project/demo-ibm-cloud:latest'
                 bat 'docker push localhost:50000/ms-project/demo-ibm-cloud:latest'
 
-                bat 'Delete the image from jenkins'
+                bat 'echo Delete the image from jenkins'
                 bat 'docker rmi -f localhost:50000/ms-project/demo-ibm-cloud:0.0.2 localhost:50000/ms-project/demo-ibm-cloud:latest'
             }
         }
         // Deploy
         stage('Deploy') {
             steps {
-                bat 'kubectl set image -n dev deployment/demo-ibm-cloud demo-ibm-cloud=docker.io/ms-project/demo-ibm-cloud:0.0.2'
+                bat 'echo Deploy'
+                bat 'kubectl set image deployment/demo-ibm-cloud demo-ibm-cloud=localhost:50000/ms-project/demo-ibm-cloud:0.0.2'
             }
         }
         //end
