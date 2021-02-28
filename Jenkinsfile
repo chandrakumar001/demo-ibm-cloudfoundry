@@ -3,6 +3,11 @@ pipeline {
     environment {
         //def newVersion= "0.0.3";
         def newVersion= "0.0.3";
+
+        // read info from pom (see: http://maven.apache.org/components/ref/3.3.9/maven-model/apidocs/org/apache/maven/model/Model.html)
+        def  pom = readMavenPom file: 'pom.xml'
+        def  verson=pom.version
+        bat "Version: %verson%"
     }
     // auto triggers
     triggers {
