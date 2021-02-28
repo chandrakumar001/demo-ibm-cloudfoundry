@@ -1,4 +1,5 @@
-node ("windows") {
+pipeline {
+  agent any
   stage ('Build') {
 
     git url: 'https://github.com/chandrakumar001/demo-ibm-cloudfoundry.git'
