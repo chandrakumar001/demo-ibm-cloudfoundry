@@ -55,10 +55,10 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 bat 'docker build . -t ms-project/demo-ibm-cloud:0.0.2'
-                bat 'Push the image to docker'
+                bat 'echo the image to docker'
                 bat 'docker push docker.io/ms-project/demo-ibm-cloud:0.0.2'
 
-                bat 'Push the latest image to docker'
+                bat 'echo the latest image to docker'
                 bat 'docker tag docker.io/ms-project/demo-ibm-cloud:0.0.2 docker.io/ms-project/demo-ibm-cloud:latest'
                 bat 'docker push docker.io/ms-project/demo-ibm-cloud:latest'
 
