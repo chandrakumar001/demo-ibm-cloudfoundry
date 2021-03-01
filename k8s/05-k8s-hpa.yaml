@@ -1,0 +1,11 @@
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: demo-ibm-cloud
+spec:
+  scaleTargetRef:
+    kind: ReplicaSet
+    name: demo-ibm-cloud
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 10
