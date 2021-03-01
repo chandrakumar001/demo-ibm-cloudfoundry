@@ -1,7 +1,7 @@
-apiVersion: apps/v1  # for versions before 1.7.0 use apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: jenkins-deployment
+  name: jenkins
 spec:
   replicas: 1
   selector:
@@ -16,13 +16,13 @@ spec:
         - name: jenkins
           image: jenkins/jenkins:lts
           ports:
-            - containerPort: 8080
-            - containerPort: 50000
+            - name: http-port
+              containerPort: 8080
+            - name: jnlp-port
+              containerPort: 50000
           volumeMounts:
-            - name: jenkins-volume
-              mountPath: /var/jenkins_home
-      serviceAccountName: "my-svc-account"
+            - name: jenkins-vol
+              mountPath: /var/jenkins_vol
       volumes:
-        - name: jenkins-volume
-          persistentVolumeClaim:
-            claimName: jenkins-volume-claim
+        - name: jenkins-vol
+          emptyDir: {}

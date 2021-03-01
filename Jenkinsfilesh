@@ -13,9 +13,10 @@ pipeline {
                 // Clean before build
                 cleanWs()
                 // We need to explicitly checkout from SCM here
+                sh 'git clone https://github.com/chandrakumar001/demo-ibm-cloudfoundry.git'
                 checkout scm
                 // sh mvn clean install
-                bat 'mvn clean compile'
+                sh 'mvn clean compile'
             }
             post {
                 // Clean after build
@@ -41,7 +42,7 @@ pipeline {
         // Build
         stage('Test') {
             steps {
-                bat 'mvn test'
+                sh 'mvn test'
             }
             post{
               always{
@@ -52,7 +53,7 @@ pipeline {
         // Build
         stage('Package') {
             steps {
-                bat 'mvn package -Dmaven.test.skip=true'
+                sh 'mvn package -Dmaven.test.skip=true'
             }
             post {
                 success {
@@ -62,26 +63,27 @@ pipeline {
         }
         stage('Build Docker Image') {
             steps {
-                bat 'docker build . -t localhost:50000/ms-project/demo-ibm-cloud:'+newVersion
+                script{
+                    println "Image build job skipped ${newVersion} begin"
+                    def pom = readMavenPom file: 'pom.xml'
+                    newVersion=pom.version
+                    println "Image build job skipped ${newVersion} end"
+                }
                 //${newVersion}
                // %newVersion%
-                bat 'docker build . -t localhost:50000/ms-project/demo-ibm-cloud:'+newVersion
-                bat 'echo the image to docker'
-                bat 'docker push localhost:50000/ms-project/demo-ibm-cloud:'+newVersion
+                sh 'docker build . -t localhost:50000/ms-project/demo-ibm-cloud:${newVersion}'
+                sh 'docker push localhost:50000/ms-project/demo-ibm-cloud:${newVersion}'
 
-                bat 'echo the latest image to docker'
-                bat 'docker tag localhost:50000/ms-project/demo-ibm-cloud:'+newVersion+' localhost:50000/ms-project/demo-ibm-cloud:latest'
-                bat 'docker push localhost:50000/ms-project/demo-ibm-cloud:latest'
+                sh 'docker tag localhost:50000/ms-project/demo-ibm-cloud:${newVersion} localhost:50000/ms-project/demo-ibm-cloud:latest'
+                sh 'docker push localhost:50000/ms-project/demo-ibm-cloud:latest'
 
-                bat 'echo Delete the image from jenkins'
-                bat 'docker rmi -f localhost:50000/ms-project/demo-ibm-cloud:'+newVersion+' localhost:50000/ms-project/demo-ibm-cloud:latest'
+                sh 'docker rmi -f localhost:50000/ms-project/demo-ibm-cloud:${newVersion} localhost:50000/ms-project/demo-ibm-cloud:latest'
             }
         }
         // Deploy
         stage('Deploy') {
             steps {
-                bat 'echo Deploy'
-                bat 'kubectl set image deployment/demo-ibm-cloud demo-ibm-cloud=localhost:50000/ms-project/demo-ibm-cloud:'+newVersion
+                sh 'kubectl set image deployment/demo-ibm-cloud demo-ibm-cloud=localhost:50000/ms-project/demo-ibm-cloud:${newVersion}'
             }
         }
         //end
