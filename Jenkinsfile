@@ -66,17 +66,17 @@ pipeline {
 
             steps {
                 bat '''
-                docker build . -t localhost:50000/ms-project/demo-ibm-cloud:+newVersion
-                docker build . -t localhost:50000/ms-project/demo-ibm-cloud:+newVersion
-                echo the image to docker
-                docker push localhost:50000/ms-project/demo-ibm-cloud:+newVersion
+                'docker build . -t localhost:50000/ms-project/demo-ibm-cloud:'+newVersion
+                'docker build . -t localhost:50000/ms-project/demo-ibm-cloud:'+newVersion
+                'echo the image to docker'
+                'docker push localhost:50000/ms-project/demo-ibm-cloud:'+newVersion
 
-                echo the latest image to docker
-                docker tag localhost:50000/ms-project/demo-ibm-cloud:+newVersion+ localhost:50000/ms-project/demo-ibm-cloud:latest
-                docker push localhost:50000/ms-project/demo-ibm-cloud:latest'
+                'echo the latest image to docker'
+                'docker tag localhost:50000/ms-project/demo-ibm-cloud:'+newVersion+' localhost:50000/ms-project/demo-ibm-cloud:latest'
+                'docker push localhost:50000/ms-project/demo-ibm-cloud:latest'
 
-                echo Delete the image from jenkins
-                docker rmi -f localhost:50000/ms-project/demo-ibm-cloud:+newVersion+ localhost:50000/ms-project/demo-ibm-cloud:latest
+                'echo Delete the image from jenkins'
+                'docker rmi -f localhost:50000/ms-project/demo-ibm-cloud:'+newVersion+' localhost:50000/ms-project/demo-ibm-cloud:latest'
                '''
 
             }
