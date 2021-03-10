@@ -7,4 +7,6 @@ spec:
     app: demo-ibm-cloud
   ports:
     - protocol: TCP
-      port: 8080
+      port: 80
+      targetPort: 80
+      name: http

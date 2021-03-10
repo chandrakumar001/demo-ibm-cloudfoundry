@@ -2,8 +2,8 @@ def newVersion
 pipeline {
   agent any
      // auto triggers
-     //${newVersion}
-     // %newVersion%
+    //${newPomVersion} ::: linux Placeholder
+    // %newPomVersion% :::windows Placeholder
     triggers {
         pollSCM('H/5 * * * *')
     }
@@ -51,6 +51,14 @@ pipeline {
               }
             }
         }
+  // Build
+       stage('cucumber') {
+         steps {
+                cucumber buildStatus: "UNSTABLE",
+               fileIncludePattern: "**/feature.*.*.json",
+                jsonReportDirectory: "target"
+            }
+         }
         // Build
         stage('Package') {
             steps {

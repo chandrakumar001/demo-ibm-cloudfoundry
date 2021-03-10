@@ -1,0 +1,20 @@
+apiVersion: autoscaling.k8s.io/v1beta2
+kind: VerticalPodAutoscaler
+metadata:
+  name: demo-ibm-cloud
+spec:
+  targetRef:
+    apiVersion: "apps/v1"
+    kind: Deployment
+    name: demo-ibm-cloud
+  updatePolicy:
+    updateMode: "Off"
+  resourcePolicy:
+    containerPolicies:
+      - containerName: "demo-ibm-cloud"
+        minAllowed:
+          cpu: "250m"
+          memory: "100Mi"
+        maxAllowed:
+          cpu: "2000m"
+          memory: "2048Mi"

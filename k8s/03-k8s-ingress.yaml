@@ -1,17 +1,26 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: minimal-ingress
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+  name: demo-ibm-cloud-ingress
 spec:
   rules:
-    - http:
+    - host: "demo-ibm-cloud.pj.chmstore.com"
+      http:
         paths:
-          - path: /
-            pathType: Prefix
+          - pathType: Prefix
+            path: "/"
             backend:
               service:
                 name: demo-ibm-cloud
+                port:
+                  number: 80
+    - host: "demo-ibm-cloud-test.pj.chmstore.com"
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: demo-ibm-cloud-test
                 port:
                   number: 80

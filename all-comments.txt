@@ -1,0 +1,191 @@
+################################################
+#       ResourceQuota                             #
+################################################
+kubectl create -f k8s/01-k8s-resources-qutotas.yaml
+kubectl describe quota ms-person
+kubectl delete quota ms-person
+kubectl get quota
+################################################
+#       Deployment                             #
+################################################
+kubectl create -f k8s/01-k8s-deployment.yaml
+kubectl describe deployment ms-person
+kubectl get deployment -o yaml ms-person
+kubectl edit deployment -o yaml ms-person
+################################################
+#       service                                #
+################################################
+kubectl create -f k8s/02-k8s-service.yaml
+kubectl delete service/ms-person
+kubectl describe service/ms-person
+kubectl edit service ms-person
+################################################
+#       ingress                                #
+################################################
+kubectl create -f k8s/03-k8s-ingress.yaml
+kubectl describe networkpolicy  ms-person
+kubectl get networkpolicy 
+kubectl edit networkpolicy ms-person
+################################################
+#       network-policy                         #
+################################################
+kubectl create -f k8s/04-k8s-network-policy.yaml
+kubectl describe ingress minimal-ingress
+kubectl get ingress
+kubectl edit ingress minimal-ingress
+################################################
+#       hpa(HorizontalPodAutoscaler)           #
+################################################
+kubectl create -f k8s/05-k8s-hpa.yaml
+kubectl get hpa
+kubectl describe hpa ms-person-scaler
+kubectl delete hpa ms-person-scaler
+################################################
+#       configmap                              #
+################################################
+kubectl create configmap ms-person-configmap  --from-env-file=k8s/06-env-config-dev.properties
+kubectl create configmap ms-project-configmap  --from-env-file=k8s/06-env-config-dev.properties
+kubectl get configmap
+kubectl describe configmaps/ms-person-configmap
+################################################
+#       secret                                #
+################################################
+kubectl create -f k8s/07-ms-person-secret.yaml
+kubectl create -f k8s/ms-project-secret.yaml
+kubectl get secret ms-person-secret
+kubectl describe secret ms-person-secret
+kubectl delete secret ms-person-secret
+################################################
+#       cmd                                #
+################################################
+kubectl logs ms-person-5f86845cb6-j8dnb
+kubectl logs --tail=100 ms-person-5f86845cb6-j8dnb
+kubectl get po -o wide
+kubectl rollout restart deployment/ms-person
+kubectl port-forward ms-person-5f86845cb6-j8dnb 8081:8080
+
+kubectl scale --replicas= 1 replicaset ms-person
+##############
+Private repositoy:
+##############
+
+http://10.105.37.38:31984
+
+docker ps -a
+docker rm 7d166dc751b6
+
+kubectl delete service metrics-server -n kube-system
+kubectl delete deployment metrics-server -n kube-system
+kubectl get pods -n kube-system
+kubectl get service -n kube-system
+kubectl get deployment -n kube-system
+kubectl logs metrics-server-76f8d9fc69-jxkvg -n kube-system
+Fix: https://github.com/kubernetes-sigs/metrics-server/issues/196
+
+kubectl get pod -o wide
+kubectl get nodes
+
+
+kubectl get hpa hpa-example
+kubectl top pod deployment-example-56bb668bff-zvcxg
+kubectl scale --replicas=0 deployment/php-apache
+
+kubectl autoscale deployment php-apache --cpu-percent=50 --min=1 --max=10
+kubectl autoscale deployment deployment-example --cpu-percent=50 --min=1 --max=10
+
+kubectl create -f php-apache-deployment.yaml
+kubectl create -f php-apache-service.yaml
+kubectl create -f php-apache-hpa.yaml
+kubectl create -f php-apache-loadtest.yaml
+
+kubectl exec -it nginx-load-test-calls-5c9b56df5f-2ls7n  sh
+ps
+
+::::::::::Kubectl UI::::::::::::
+https://upcloud.com/community/tutorials/deploy-kubernetes-dashboard/
+
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0/aio/deploy/recommended.yaml
+kubectl proxy
+::::::::::Kubectl UI::::::::::::
+
+
+
+kubectl version --short
+kubectl get nodes
+kubectl -n kube-system get all
+kubectl get pods -n kube-system
+
+
+
+1.Pipeline Utility Steps
+
+docker image rm 3fe207bb34bc -f
+docker build -t ms-project/ms-person:0.0.1 .
+
+docker build . -t ms-project/ms-person:0.0.2
+docker images     // show list of images
+docker image rm <image-id>     // delete the image
+docker container ls   //show running images
+
+kubectl create -f k8s/components.yaml
+
+
+kubectl create -f k8s/kubernate_deployment_old.yaml
+kubectl delete pod ms-person
+kubectl get pods
+kubectl describe pod ms-person
+
+jenkins.exe stop
+jenkins.exe start
+jenkins.exe restart
+
+docker build . -t localhost:50000/ms-project/ms-person:0.0.2
+docker push localhost:50000/ms-project/ms-person:0.0.2
+docker tag localhost:50000/ms-project/ms-person:0.0.2 localhost:50000/ms-project/ms-person:latest
+docker push localhost:50000/ms-project/ms-person:latest
+docker rmi -f localhost:50000/ms-project/ms-person
+
+http://localhost:50000/v2/ms-project/ms-person/tags/list
+
+        docker history localhost:50000/ms-project/demo-ibm-cloud:0.0.2
+
+[Server Setup]
+docker run -d -p 50000:5000 --restart always --name my-registry registry:latest
+docker stop my-registry
+docker rm my-registry
+docker-compose up -d
+http://localhost:50000/v2/_catalog
+
+kubectl create namespace jenkins
+kubectl create -f  jenkins.yaml -n jenkins
+
+Monitoring Tools:
+1.Prometheus Monitoring
+2.Grafana
+3.Elastic Search
+
+The bandwidth is 1000 cars per minute
+The throughput is 100 cars per minute
+
+###Throughput
+ Actual amount of data that passes through the medium
+#### Latency(delay)
+The delay defines, how long it takes for an entire message
+to completely arrive at the destination from the time the first bit is
+sent out from the source
+
+docker pull jenkins/jenkins:lts
+kubectl port-forward jenkins-794699f9bc-p5xm4 8081:8080
+
+reference:
+    private: Repo
+    https://code-maze.com/docker-hub-vs-creating-docker-registry/
+    https://www.stackrox.com/post/2020/05/kubernetes-autoscaling-explained/
+
+    https://katharharshal1.medium.com/kubernetes-autoscaling-horizontal-pod-autoscaling-hpa-vertical-pod-autoscaling-vpa-using-aws-d34b0284fe44
+    https://searchitoperations.techtarget.com/tutorial/Kubernetes-performance-testing-tutorial-Load-test-a-cluster
+    https://coding-stream-of-consciousness.com/2019/12/23/minikube-imagepullbackoff-local-docker-image/
+    refer:https://kubernetes.io/docs/concepts/configuration/overview/
+    https://dchua.com/2017/04/21/load-env-variables-from-configmaps-and-secrets-upon-pod-boot/
+    https://www.mirantis.com/blog/introduction-to-yaml-creating-a-kubernetes-deployment/
+    https://www.edureka.co/community/31266/kubernetes-windows-connection-because-machine-actively-refused
